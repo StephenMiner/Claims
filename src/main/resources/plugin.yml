@@ -1,0 +1,10 @@
+name: Claims
+version: '${project.version}'
+main: me.stephenminer.claims.Claims
+api-version: 1.19
+commands:
+  giveWand:
+  claimShovel:
+  claims:
+  claimBlocks:
+  claimsReload:

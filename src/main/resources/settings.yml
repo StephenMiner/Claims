@@ -1,0 +1,3 @@
+settings:
+  hours-between-addition: 2
+  claim-blocks-per: 1024
