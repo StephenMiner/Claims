@@ -164,7 +164,7 @@ public class RegionInteraction implements Listener {
         else if (event.getDamager() instanceof Projectile proj && proj.getShooter() instanceof Player) player = (Player) proj.getShooter();
         if (player != null){
             for (ClaimedRegion region : plugin.regions){
-                if (!region.getOwner().equals(player.getUniqueId()) || !region.getTrusted().contains(player.getUniqueId()) && region.isInRegion(event.getEntity().getLocation())){
+                if ((!region.getOwner().equals(player.getUniqueId()) || !region.getTrusted().contains(player.getUniqueId())) && region.isInRegion(event.getEntity().getLocation())){
                     if (player.hasPermission("claims.regions.override")) {
                         player.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "NOTE: YOU ARE EDITING THE REGION " + region.getId() + " BELONGING TO " + Bukkit.getOfflinePlayer(region.getOwner()).getName());
                         player.playSound(player.getLocation(), Sound.ENTITY_CAT_PURR, 1, 1);
