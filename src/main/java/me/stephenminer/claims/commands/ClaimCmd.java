@@ -2,6 +2,7 @@ package me.stephenminer.claims.commands;
 
 import me.stephenminer.claims.Claims;
 import me.stephenminer.claims.regions.ClaimedRegion;
+import me.stephenminer.claims.regions.RegionCreation;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -25,8 +26,8 @@ public class ClaimCmd implements CommandExecutor, TabCompleter {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args){
         if (sender instanceof Player player){
             int size = args.length;
-            if (size < 3){
-                player.sendMessage(ChatColor.RED + "Not enough arguments! You must input a claim-id (see tabcompleter), a subcmd (see the tabcompleter), and its argument (see the tabcompleter)");
+            if (size < 1) {
+                player.sendMessage(ChatColor.RED + "Please input a claim to edit!");
                 return false;
             }
             ClaimedRegion region = fromString(player.getUniqueId(), args[0]);
@@ -37,6 +38,19 @@ public class ClaimCmd implements CommandExecutor, TabCompleter {
             if (!region.getOwner().equals(player.getUniqueId())){
                 player.sendMessage(ChatColor.RED + "You do not own the claim " + region.getId() + ". You are not allowed to edit claims you do not own!");
             }
+            if (size >= 2){
+                if (args[1].equalsIgnoreCase("resize")){
+                    RegionCreation.resizing.put(player.getUniqueId(), region.getId());
+                    player.sendMessage(ChatColor.GREEN + "You are now set to resize your claim! Just take your shovel and re-define the bounds");
+                    return true;
+                }
+            }
+            if (size < 3){
+                player.sendMessage(ChatColor.RED + "Not enough arguments! You must input a claim-id (see tabcompleter), a subcmd (see the tabcompleter), and its argument (see the tabcompleter)");
+                return false;
+            }
+
+
             if (args[1].equalsIgnoreCase("showBorder")){
                 boolean on = Boolean.parseBoolean(args[2]);
                 if (on) {
@@ -148,6 +162,7 @@ public class ClaimCmd implements CommandExecutor, TabCompleter {
             if (size == 3) {
                 if (args[1].equalsIgnoreCase("trust")) return null;
                 else if (args[1].equalsIgnoreCase("setDenyMsg")) return yourMsg();
+                else if (args[1].equalsIgnoreCase("resize"))return null;
                 else if(args[1].equalsIgnoreCase("untrust")){
                     ClaimedRegion region = fromString(player.getUniqueId(), args[0]);
                     if (region != null) return currentTrusted(region, args[2]);
@@ -177,6 +192,7 @@ public class ClaimCmd implements CommandExecutor, TabCompleter {
     private List<String> subCmds(String match){
         List<String> subs = new ArrayList<>();
         subs.add("showBorder");
+        subs.add("resize");
         subs.add("allowExplosions");
         subs.add("allowLiquidFlow");
         subs.add("allowInteraction");

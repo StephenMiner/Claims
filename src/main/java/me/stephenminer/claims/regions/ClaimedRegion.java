@@ -13,8 +13,8 @@ import org.bukkit.util.Vector;
 import java.util.*;
 
 public class ClaimedRegion {
-    private final Location loc1;
-    private final Location loc2;
+    private Location loc1;
+    private Location loc2;
     private final UUID owner;
     private final Claims plugin;
     private List<UUID> trusted;
@@ -48,6 +48,7 @@ public class ClaimedRegion {
         allowEntityInteraction = false;
         trusted = new ArrayList<>();
     }
+
 
     public boolean tryBreak(Player player){
         return owner.equals(player.getUniqueId()) || trusted.contains(player.getUniqueId());
@@ -174,6 +175,14 @@ public class ClaimedRegion {
     public void setAllowEntityInteraction(boolean allow){
         this.allowEntityInteraction = allow;
     }
+    public void setLoc1(Location loc1){
+        loc1.setY(loc1.getWorld().getMinHeight());
+        this.loc1 = loc1.clone().add(0.5,0.5,0.5);
+    }
+    public void setLoc2(Location loc2){
+        loc2.setY(loc2.getWorld().getMaxHeight()-1);
+        this.loc2 = loc2.clone().add(0.5,0.5,0.5);
+    }
 
     public int getArea(){
         int maxx = Math.max(loc1.getBlockX(), loc2.getBlockX());
@@ -188,6 +197,8 @@ public class ClaimedRegion {
         plugin.regionFile.getConfig().set("regions." + owner + "." + id, null);
         plugin.regionFile.saveConfig();
     }
+
+
 
 
 }
