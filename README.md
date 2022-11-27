@@ -39,6 +39,10 @@ Trusts a player in the region orriding all editing restrictions
 untrust [player] 
 Untrusts a player in a claim
 
+/forceDelete [owner] [name]
+Purpose: This command will force the deletion of a region not owned by you!
+Permission: "claims.commands.forcedelete"
+
 How Does it work?
 When you have a wand which is a special item you get from /giveWand or /claimShovel you simply left click to set one corner right click to set another. Then the plugin will make sure you have enough claim blocks and if you do you will be asked to type a region name out in chat. This is how the plugin will save your region and you identify it. 
 
