@@ -55,6 +55,9 @@ public final class Claims extends JavaPlugin {
         ClaimCmd claimCmd = new ClaimCmd(this);
         getCommand("claims").setExecutor(claimCmd);
         getCommand("claims").setTabCompleter(claimCmd);
+        ForceDelete deleteCmd = new ForceDelete(this);
+        getCommand("forceDelete").setExecutor(deleteCmd);
+        getCommand("forceDelete").setTabCompleter(deleteCmd);
     }
 
     private void registerEvents(){
