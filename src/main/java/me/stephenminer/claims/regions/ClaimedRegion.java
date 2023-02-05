@@ -29,6 +29,7 @@ public class ClaimedRegion {
     private boolean allowEntityInteraction;
     private String denyMessage;
     private boolean showing;
+    private boolean trustAll;
 
 
 
@@ -51,7 +52,7 @@ public class ClaimedRegion {
 
 
     public boolean tryBreak(Player player){
-        return owner.equals(player.getUniqueId()) || trusted.contains(player.getUniqueId());
+        return trustAll || (owner.equals(player.getUniqueId()) || trusted.contains(player.getUniqueId()));
     }
 
 
@@ -74,6 +75,7 @@ public class ClaimedRegion {
         plugin.regionFile.getConfig().set(base + ".liquids", allowFlowIO);
         plugin.regionFile.getConfig().set(base + ".interaction", allowInteraction);
         plugin.regionFile.getConfig().set(base + ".entity-interaction", allowEntityInteraction);
+        plugin.regionFile.getConfig().set(base + ".trust-all", trustAll);
         List<String> trustedToString = new ArrayList<>();
         for (UUID uuid : trusted){
             trustedToString.add(uuid.toString());
@@ -159,6 +161,7 @@ public class ClaimedRegion {
         return showing;
     }
     public boolean entityInteractionAllowed(){ return allowEntityInteraction; }
+    public boolean allTrusted(){ return trustAll; }
 
     public void setAllowFlowIO(boolean allow){
         this.allowFlowIO = allow;
@@ -175,6 +178,7 @@ public class ClaimedRegion {
     public void setAllowEntityInteraction(boolean allow){
         this.allowEntityInteraction = allow;
     }
+    public void setAllTrusted(boolean trustAll){ this.trustAll = trustAll; }
     public void setLoc1(Location loc1){
         loc1.setY(loc1.getWorld().getMinHeight());
         this.loc1 = loc1.clone().add(0.5,0.5,0.5);

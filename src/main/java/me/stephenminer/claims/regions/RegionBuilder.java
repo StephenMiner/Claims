@@ -19,6 +19,7 @@ public class RegionBuilder {
     private boolean allowExplosion;
     private boolean allowLiquidIO;
     private boolean allowEntityInteraction;
+    private boolean trustAll;
 
     private List<UUID> trusted;
     public RegionBuilder(Claims plugin, UUID owner, String id){
@@ -36,7 +37,8 @@ public class RegionBuilder {
         allowExplosion = plugin.regionFile.getConfig().getBoolean(base + ".explosions");
         allowInteraction = plugin.regionFile.getConfig().getBoolean(base + ".interaction");
         allowLiquidIO = plugin.regionFile.getConfig().getBoolean(base + ".liquids");
-        allowEntityInteraction = plugin.regionFile.getConfig().getBoolean(base + "entity-interaction");
+        allowEntityInteraction = plugin.regionFile.getConfig().getBoolean(base + ".entity-interaction");
+        trustAll = plugin.regionFile.getConfig().getBoolean(base + ".trust-all");
     }
 
     private void loadPositions(){
@@ -63,6 +65,7 @@ public class RegionBuilder {
         region.setAllowInteraction(allowInteraction);
         region.setTrustedPlayers(trusted);
         region.setAllowEntityInteraction(allowEntityInteraction);
+        region.setAllTrusted(trustAll);
         return region;
     }
 }

@@ -30,7 +30,6 @@ public class TimerHandler implements Listener {
             if (node.data().getPlayer().equals(player)) {
                 node.data().save();
                 plugin.timers.remove(node.data());
-                Bukkit.broadcastMessage("A");
                 return;
             }
             node = node.next();

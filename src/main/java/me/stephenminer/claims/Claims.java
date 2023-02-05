@@ -68,23 +68,29 @@ public final class Claims extends JavaPlugin {
     }
 
     public String fromBlockLoc(Location loc){
-        return loc.getWorld().getName() + "," + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ();
+        return loc.getWorld().getName() + "," + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + "," + loc.getWorld().getEnvironment().name();
     }
 
     public Location fromString(String str){
         String[] unbox = str.split(",");
         String worldName = unbox[0];
         World world = null;
+        String env = unbox[4];
+        World.Environment environment = World.Environment.valueOf(env);
         try{
             world = Bukkit.getWorld(worldName);
         }catch (Exception e){
             e.printStackTrace();
             getLogger().warning("Attempted to load world " + unbox[0] + ", but received null. Now attempting to force load the world. (May create new world)");
         }
-        if (world == null) world = Bukkit.createWorld(new WorldCreator(unbox[0]));
+        if (world == null) {
+            world = Bukkit.createWorld(new WorldCreator(unbox[0]).environment(environment));
+            getLogger().warning("Loading world");
+        }
         int x = Integer.parseInt(unbox[1]);
         int y= Integer.parseInt(unbox[2]);
         int z = Integer.parseInt(unbox[3]);
+
         return new Location(world, x, y, z);
     }
 

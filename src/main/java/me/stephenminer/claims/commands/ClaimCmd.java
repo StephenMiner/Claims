@@ -93,6 +93,13 @@ public class ClaimCmd implements CommandExecutor, TabCompleter {
                 player.sendMessage(ChatColor.GREEN + "Set allowEntityInteraction to " + value);
                 return true;
             }
+            if (args[1].equalsIgnoreCase("trustAll")){
+                boolean on = Boolean.parseBoolean(args[2]);
+                region.setAllTrusted(on);
+                String msg = on ? "All players (ever) are now trusted" : "All players no longer trusted, reverting to trusted players list!";
+                player.sendMessage(ChatColor.GREEN + msg);
+                return true;
+            }
             if (args[1].equalsIgnoreCase("trust")){
                 Player p = getPlayer(args[2]);
                 if (p == null){
@@ -163,6 +170,7 @@ public class ClaimCmd implements CommandExecutor, TabCompleter {
                 if (args[1].equalsIgnoreCase("trust")) return null;
                 else if (args[1].equalsIgnoreCase("setDenyMsg")) return yourMsg();
                 else if (args[1].equalsIgnoreCase("resize"))return null;
+                else if (args[1].equalsIgnoreCase("trustAll")) return booleans(args[2]);
                 else if(args[1].equalsIgnoreCase("untrust")){
                     ClaimedRegion region = fromString(player.getUniqueId(), args[0]);
                     if (region != null) return currentTrusted(region, args[2]);
@@ -200,6 +208,7 @@ public class ClaimCmd implements CommandExecutor, TabCompleter {
         subs.add("setDenyMsg");
         subs.add("delete");
         subs.add("trust");
+        subs.add("trustAll");
         subs.add("untrust");
         return filter(subs, match);
     }
