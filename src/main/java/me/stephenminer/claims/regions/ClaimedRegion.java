@@ -57,13 +57,16 @@ public class ClaimedRegion {
 
 
     public BoundingBox getBounds(){
+        if (!loc1.getWorld().equals(loc2.getWorld())) return null;
         return BoundingBox.of(loc1, loc2);
     }
 
     public boolean isInRegion(Location loc){
         Vector blockVec = loc.getBlock().getLocation().toVector();
         Vector max = blockVec.clone().add(new Vector(1,1,1));
-        return getBounds().overlaps(blockVec, max);
+        BoundingBox bounds = getBounds();
+        if (bounds == null) return false;
+        return loc.getWorld().equals(loc1.getWorld()) && getBounds().overlaps(blockVec, max);
     }
 
     public void save(){

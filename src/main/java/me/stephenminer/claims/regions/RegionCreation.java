@@ -40,10 +40,16 @@ public class RegionCreation implements Listener {
             event.setCancelled(true);
             return;
         }
+        if (!worldValid(player.getLocation())){
+            player.sendMessage(ChatColor.RED + "You cannot create a claim in this world!");
+            event.setCancelled(true);
+            return;
+        }
         Location loc;
         switch (event.getAction()){
             case LEFT_CLICK_BLOCK -> {
                 loc = event.getClickedBlock().getLocation();
+
                 if (overlapping(loc)) {
                     ClaimedRegion region = getOverlapping(loc);
                     player.sendMessage(ChatColor.RED + "This position is overlapping another region " + region.getId());
@@ -97,6 +103,12 @@ public class RegionCreation implements Listener {
             canName.add(player.getUniqueId());
             player.sendMessage(ChatColor.GREEN + "Please type in chat what you want the name of your claim to be");
         }
+    }
+
+    private boolean worldValid(Location loc){
+        List<String> blacklist = plugin.settings.getConfig().getStringList("settings.blacklist");
+        if (blacklist == null || blacklist.isEmpty()) return true;
+        else return blacklist.contains(loc.getWorld().getName().toLowerCase());
     }
 
 

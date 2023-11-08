@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.checkerframework.checker.units.qual.C;
 
 import java.util.*;
 
@@ -58,6 +59,9 @@ public final class Claims extends JavaPlugin {
         ForceDelete deleteCmd = new ForceDelete(this);
         getCommand("forceDelete").setExecutor(deleteCmd);
         getCommand("forceDelete").setTabCompleter(deleteCmd);
+        ClaimBlacklist blacklist = new ClaimBlacklist();
+        getCommand("claimBlacklist").setExecutor(blacklist);
+        getCommand("claimBlacklist").setTabCompleter(blacklist);
     }
 
     private void registerEvents(){
